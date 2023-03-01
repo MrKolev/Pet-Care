@@ -1,4 +1,5 @@
-const { html } = require("lit-html");
+import { html } from "../../node_modules/lit-html/lit-html.js";
+
 
 export function dashboardPageView(ctx) {
     ctx.render(dashboardViewTemplate());

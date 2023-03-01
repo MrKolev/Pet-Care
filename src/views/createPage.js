@@ -1,5 +1,4 @@
-const { html } = require("../../node_modules/lit-html/lit-html.js");
-
+import { html } from "../../node_modules/lit-html/lit-html.js";
 export function createPageView(ctx) {
     ctx.render(createViewTemplate(onSubmit));
 

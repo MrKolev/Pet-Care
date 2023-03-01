@@ -1,4 +1,4 @@
-const { html } = require("lit-html");
+import { html } from "../../node_modules/lit-html/lit-html.js";
 
 export function registerPageView(ctx) {
     ctx.render(registerViewTemplate(onSubmit));

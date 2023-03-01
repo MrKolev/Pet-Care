@@ -1,5 +1,4 @@
-const { html } = require("lit-html");
-
+import { html } from "../../node_modules/lit-html/lit-html.js";
 export function loginPageView(ctx) {
     ctx.render(loginViewTemplate(onSubmit));
 
@@ -24,7 +23,7 @@ function loginViewTemplate(onSubmit) {
         <button class="btn" type="submit">Login</button>
 
         <p class="field">
-            <span>If you don't have profile click <a href="#">here</a></span>
+            <span>If you don't have profile click <a href="/registerPage">here</a></span>
         </p>
     </form>
 </section>
