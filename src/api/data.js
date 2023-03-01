@@ -5,6 +5,7 @@ const endpoint = {
     "login": "/users/login",
     "register": "/users/register",
     "logout": "/users/logout",
+    "allPets":"/data/pets?sortBy=_createdOn%20desc&distinct=name"
 }
 
 export async function login(email, password) {
@@ -28,5 +29,9 @@ export async function register(email, password) {
 export function logout() {
     getRequest(endpoint.logout);
     delUserData();
+}
+
+export async function getAllPets(){
+return await getRequest(endpoint.allPets)
 }
 

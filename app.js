@@ -21,7 +21,7 @@ page("/logout",renderMiddleware, logoutBtn);
 page("/dashboard",renderMiddleware, dashboardPageView);
 page("/createPage",renderMiddleware, createPageView);
 page("/editPage",renderMiddleware, editPageView);
-page("/detailsPage",renderMiddleware, detailsPageView);
+page("/detailsPage/:id",renderMiddleware, detailsPageView);
 
 page.start();
 
