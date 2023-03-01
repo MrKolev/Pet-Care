@@ -1,5 +1,5 @@
-import { delUserData, setUserData } from "../utils";
-import * as api from "./api";
+import { delUserData, setUserData } from "../utils.js";
+import { getRequest, postRequest, putRequest, delRequest } from "./api.js";
 
 const endpoint = {
     "login": "/users/login",
@@ -7,27 +7,26 @@ const endpoint = {
     "logout": "/users/logout",
 }
 
-export async function login(email, password){
-    const {_id, userEmail, accessToken} = await api.postRequest(endpoint.login, { email, password });
+export async function login(email, password) {
+    const { _id, userEmail, accessToken } = await postRequest(endpoint.login, { email, password });
     setUserData({
-        _id, 
-        email: userEmail, 
+        _id,
+        email: userEmail,
         accessToken
     });
 }
 
-export async function register(email, password){
-    const {_id, userEmail, accessToken} = await api.postRequest(endpoint.register, { email, password });
+export async function register(email, password) {
+    const { _id, userEmail, accessToken } = await postRequest(endpoint.register, { email, password });
     setUserData({
-        _id, 
-        email: userEmail, 
+        _id,
+        email: userEmail,
         accessToken
     });
 }
 
-export function logout(){
-    api.getRequest(endpoint.logout);
+export function logout() {
+    getRequest(endpoint.logout);
     delUserData();
-    
 }
 

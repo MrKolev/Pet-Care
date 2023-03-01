@@ -1,4 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { login } from "../api/data.js";
 export function loginPageView(ctx) {
     ctx.render(loginViewTemplate(onSubmit));
 
@@ -34,6 +35,7 @@ function onSubmit(e) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
     const { email, password } = dataForm;
+    login(email, password)
     
 
 }

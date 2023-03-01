@@ -1,5 +1,5 @@
 import page from "./node_modules/page/page.mjs";
-import { render } from "./node_modules/lit-html/lit-html.js";
+import { html, render } from "./node_modules/lit-html/lit-html.js";
 import { loginPageView } from "./src/views/loginPage.js";
 import { registerPageView } from "./src/views/registerPage.js";
 import { dashboardPageView } from "./src/views/dashboard.js";
@@ -7,24 +7,33 @@ import { createPageView } from "./src/views/createPage.js";
 import { editPageView } from "./src/views/editPage.js";
 import { detailsPageView } from "./src/views/detailsPage.js";
 import { homePageView } from "./src/views/homePage.js";
+import { getUserData } from "./src/utils.js";
+import { logout } from "./src/api/data.js";
 
-const content = document.getElementById("content")
+const content = document.getElementById("content");
+const navBar = document.getElementById("navigation-bar");
 
-page(renderMiddleware);
-page("/", homePageView);
-page("/loginPage", loginPageView);
-page("/registerPage", registerPageView);
-page("/logout", logoutBnt);
-page("/dashboard", dashboardPageView);
-page("/createPage", createPageView);
-page("/editPage", editPageView);
-page("/detailsPage", detailsPageView);
+page("index",renderMiddleware, homePageView);
+page("/",renderMiddleware, homePageView);
+page("/loginPage",renderMiddleware, loginPageView);
+page("/loginPage",renderMiddleware, loginPageView);
+page("/registerPage",renderMiddleware, registerPageView);
+page("/logout",renderMiddleware, logoutBtn);
+page("/dashboard",renderMiddleware, dashboardPageView);
+page("/createPage",renderMiddleware, createPageView);
+page("/editPage",renderMiddleware, editPageView);
+page("/detailsPage",renderMiddleware, detailsPageView);
 
-page.start()
+page.start();
 
-function logoutBnt() {
+upadeNav();
 
+
+function logoutBtn() {
+  logout();
+  page.redirect("/");
 }
+
 
 function renderMiddleware(ctx, next) {
   ctx.render = (cont) => render(cont, content);
@@ -33,18 +42,21 @@ function renderMiddleware(ctx, next) {
 }
 
 export function upadeNav() {
+
   const user = getUserData();
   if (user) {
-    render(() => {
-      return html`
-        <li><a href="/createPage">Create Postcard</a></li>
-        <li><a href="/logout">Logout</a></li>`
-    }, content);
+    render(html`
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/createPage">Create Postcard</a></li>
+    <li><a href="/logout">Logout</a></li>`
+      , navBar);
   } else {
-    render(() => {
-      return html`
-        <li><a href="/loginPage">Login</a></li>
-        <li><a href="/registerPage">Register</a></li>`
-    }, content);
+    render(html`
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/loginPage">Login</a></li>
+    <li><a href="/registerPage">Register</a></li>`
+      , navBar);
   }
 }
