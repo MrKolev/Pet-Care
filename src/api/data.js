@@ -8,20 +8,20 @@ const endpoint = {
 }
 
 export async function login(email, password) {
-    const { _id, userEmail, accessToken } = await postRequest(endpoint.login, { email, password });
+    const data = await postRequest(endpoint.login, { email, password });
     setUserData({
-        _id,
-        email: userEmail,
-        accessToken
+        _id:data._id,
+        email:data.email,
+        accessToken:data.accessToken
     });
 }
 
 export async function register(email, password) {
-    const { _id, userEmail, accessToken } = await postRequest(endpoint.register, { email, password });
+    const data  = await postRequest(endpoint.register, { email, password });
     setUserData({
-        _id,
-        email: userEmail,
-        accessToken
+        _id:data._id,
+        email:data.email,
+        accessToken:data.accessToken
     });
 }
 

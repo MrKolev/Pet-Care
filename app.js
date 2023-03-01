@@ -16,7 +16,6 @@ const navBar = document.getElementById("navigation-bar");
 page("index",renderMiddleware, homePageView);
 page("/",renderMiddleware, homePageView);
 page("/loginPage",renderMiddleware, loginPageView);
-page("/loginPage",renderMiddleware, loginPageView);
 page("/registerPage",renderMiddleware, registerPageView);
 page("/logout",renderMiddleware, logoutBtn);
 page("/dashboard",renderMiddleware, dashboardPageView);
@@ -42,7 +41,6 @@ function renderMiddleware(ctx, next) {
 }
 
 export function upadeNav() {
-
   const user = getUserData();
   if (user) {
     render(html`

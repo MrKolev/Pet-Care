@@ -1,6 +1,10 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { register } from "../api/data.js";
+
+let context = null;
 
 export function registerPageView(ctx) {
+    context = ctx
     ctx.render(registerViewTemplate(onSubmit));
 
 }
@@ -28,15 +32,31 @@ function registerViewTemplate(onSubmit) {
         <button class="btn" type="submit">Register</button>
 
         <p class="field">
-            <span>If you have profile click <a href="#">here</a></span>
+            <span>If you have profile click <a href="/loginPage">here</a></span>
         </p>
     </form>
 </section>
 `
 }
 
-function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
-    const dataForm = new FormData(e.target);
-    const { email, password, repeatPassword } = dataForm;
+    const { email, password, repeatPassword } = Object.fromEntries(new FormData(e.target));
+
+    try {
+        if (!email || !password || !repeatPassword) {
+            throw new Error("all fields must be filled")
+        }
+
+        if (password !== repeatPassword) {
+            throw new Error("password and repeatPassword must match")
+        }
+
+        await register(email, password);
+
+        context.page.redirect("/");
+
+    } catch (error) {
+        alert(error.message)
+    }
 }

@@ -1,7 +1,9 @@
+import { upadeNav } from "../../app.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
 
 export function homePageView(ctx) {
     ctx.render(homeViewTemplate());
+    upadeNav();
 
 }
 

@@ -1,6 +1,9 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { login } from "../api/data.js";
+
+let context = null;
 export function loginPageView(ctx) {
+     context = ctx;
     ctx.render(loginViewTemplate(onSubmit));
 
 }
@@ -31,11 +34,22 @@ function loginViewTemplate(onSubmit) {
 `
 }
 
-function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
-    const dataForm = new FormData(e.target);
-    const { email, password } = dataForm;
-    login(email, password)
+    const { email, password } = Object.fromEntries(new FormData(e.target));
+
+    try {
+        if (!email || !password) {
+            throw new Error("all fields must be filled")
+        }
+
+        await login(email, password);
+
+        context.page.redirect("/");
+
+    } catch (error) {
+        alert(error.message)
+    }
     
 
 }
