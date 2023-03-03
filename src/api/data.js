@@ -7,7 +7,7 @@ const endpoint = {
     "logout": "/users/logout",
     "allPets": "/data/pets?sortBy=_createdOn%20desc&distinct=name",
     "petId": (id) => `/data/pets/${id}`,
-    "createPet": "/data/pets"
+    "createPet": "/data/pets",
 }
 
 
@@ -46,5 +46,8 @@ export async function petDel(id) {
 }
 export async function createPet(name, breed, age, weight, image) {
     return await postRequest(endpoint.createPet, { name, breed, age, weight, image });
+}
+export async function editPet(id, name, breed, age, weight, image) {
+    return await putRequest(endpoint.petId(id), { name, breed, age, weight, image });
 }
 
