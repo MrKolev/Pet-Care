@@ -9,7 +9,6 @@ import { detailsPageView } from "./src/views/detailsPage.js";
 import { homePageView } from "./src/views/homePage.js";
 import { getUserData } from "./src/utils.js";
 import { logout } from "./src/api/data.js";
-import { deleteArticle } from "./src/views/deleteArticle.js";
 
 const content = document.getElementById("content");
 const navBar = document.getElementById("navigation-bar");
@@ -23,7 +22,6 @@ page("/dashboard",renderMiddleware, dashboardPageView);
 page("/createPage",renderMiddleware, createPageView);
 page("/editPage/:id",renderMiddleware, editPageView);
 page("/detailsPage/:id",renderMiddleware, detailsPageView);
-page("/deleteArticle/:id",renderMiddleware, deleteArticle);
 
 page.start();
 

@@ -6,7 +6,7 @@ const endpoint = {
     "register": "/users/register",
     "logout": "/users/logout",
     "allPets":"/data/pets?sortBy=_createdOn%20desc&distinct=name",
-    "petInfo": (id) => `/data/pets/${id}`
+    "petId": (id) => `/data/pets/${id}`
 }
 
 
@@ -38,6 +38,9 @@ export async function getAllPets(){
 return await getRequest(endpoint.allPets);
 }
 export async function petInfo(id){
-return await getRequest(endpoint.petInfo(id));
+return await getRequest(endpoint.petId(id));
+}
+export async function petDel(id){
+return await delRequest(endpoint.petId(id));
 }
 

@@ -1,5 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { petInfo } from "../api/data.js";
+import { petDel, petInfo } from "../api/data.js";
 import { getUserData } from "../utils.js";
 
 
@@ -35,7 +35,7 @@ function detailsViewTemplate(infoPet, isOwner,user) {
            ${isOwner ? html `
            <div class="actionBtn">
            <a href="/editPage/${infoPet._id}" class="edit">Edit</a>
-           <a href="/deleteArticle/${infoPet._id}" class="remove">Delete</a>
+           <a @click = ${()=> confirm("Are you sure you want to delete?") ? petDel(infoPet._id) : null} class="remove">Delete</a>
            <!--(Bonus Part) Only for no creator and user-->
            <a href="#" class="donate">Donate</a>
        </div>` : ""}            
