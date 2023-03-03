@@ -33,19 +33,25 @@ function detailsViewTemplate(infoPet, isOwner, user) {
                 <h4>Weight: ${infoPet.weight}</h4>
                 <h4 class="donation">Donation: 0$</h4>
             </div>
-           ${isOwner ? html`
-           <div class="actionBtn">
-           <a href="/editPage/${infoPet._id}" class="edit">Edit</a>
-           <a @click = ${() => {
-                if (confirm("Are you sure you want to delete?")) {
-                    petDel(infoPet._id)
-                    page.redirect("/dashboard")
-                }
-            }} class="remove" > Delete</a >
-        <a href="#" class="donate">Donate</a>
-       </div >` : ""}            
-        </div>
-    </div>
-</section>`
+           ${user ?
+            html`
+            <div class="actionBtn">
+               ${isOwner ?
+                    html`
+                    <a href="/editPage/${infoPet._id}" class="edit">Edit</a>
+                    <a @click = ${() => {
+                            if (confirm("Are you sure you want to delete?")) {
+                                petDel(infoPet._id)
+                                page.redirect("/dashboard")
+                            }
+                        }
+                        } class="remove" > Delete</a >`
+                    :
+                    html`<a href="/" class="donate">Donate</a>
+                `}
+             </div > `
+            : "" }
+    </div >
+</section > `
 
 }

@@ -51,7 +51,6 @@ async function onSubmit(e) {
         }
 
         await createPet(name, breed, age, weight, image);
-
         context.page.redirect("/");
 
     } catch (error) {
