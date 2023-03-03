@@ -1,24 +1,28 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { petDel, petInfo } from "../api/data.js";
+import { getDonate, getOwnDonate, postDonate } from "../api/donate.js";
 import { getUserData } from "../utils.js";
 
-let page = null;
+let context = null;
 export async function detailsPageView(ctx) {
-    page = ctx.page
+    context = ctx;
     const petId = ctx.params.id;
     const user = getUserData();
-    const infoPet = await petInfo(petId);
+
+    const [infoPet, donate] = await Promise.all([petInfo(petId), getDonate(petId)])
     let isOwner = false;
+    let isDonate = false;
     if (user) {
+        isDonate = await getOwnDonate(petId, user._id);
         if (infoPet._ownerId === user._id) {
             isOwner = true;
         }
     }
 
-    ctx.render(detailsViewTemplate(infoPet, isOwner, user));
+    ctx.render(detailsViewTemplate(infoPet, isOwner, user, isDonate, donate));
 }
 
-function detailsViewTemplate(infoPet, isOwner, user) {
+function detailsViewTemplate(infoPet, isOwner, user, isDonate, donate) {
     return html` 
     <section id="detailsPage">
     <div class="details">
@@ -31,7 +35,7 @@ function detailsViewTemplate(infoPet, isOwner, user) {
                 <h3>Breed: ${infoPet.breed}</h3>
                 <h4>Age: ${infoPet.age}</h4>
                 <h4>Weight: ${infoPet.weight}</h4>
-                <h4 class="donation">Donation: 0$</h4>
+                <h4 class="donation">Donation: ${donate*100}$</h4>
             </div>
            ${user ?
             html`
@@ -46,11 +50,14 @@ function detailsViewTemplate(infoPet, isOwner, user) {
                             }
                         }
                         } class="remove" > Delete</a >`
-                    :
-                    html`<a href="/" class="donate">Donate</a>
-                `}
+                    : isDonate ?
+                        ""
+                        : html`<a @click=${() => {
+                            postDonate(infoPet._id);
+                            context.page.redirect("/detailsPage/" + infoPet._id)
+                        }} class="donate">Donate</a>`}
              </div > `
-            : "" }
+            : ""}
     </div >
 </section > `
 
