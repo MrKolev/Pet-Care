@@ -5,8 +5,9 @@ const endpoint = {
     "login": "/users/login",
     "register": "/users/register",
     "logout": "/users/logout",
-    "allPets":"/data/pets?sortBy=_createdOn%20desc&distinct=name",
-    "petId": (id) => `/data/pets/${id}`
+    "allPets": "/data/pets?sortBy=_createdOn%20desc&distinct=name",
+    "petId": (id) => `/data/pets/${id}`,
+    "createPet": "/data/pets"
 }
 
 
@@ -14,18 +15,18 @@ const endpoint = {
 export async function login(email, password) {
     const data = await postRequest(endpoint.login, { email, password });
     setUserData({
-        _id:data._id,
-        email:data.email,
-        accessToken:data.accessToken
+        _id: data._id,
+        email: data.email,
+        accessToken: data.accessToken
     });
 }
 
 export async function register(email, password) {
-    const data  = await postRequest(endpoint.register, { email, password });
+    const data = await postRequest(endpoint.register, { email, password });
     setUserData({
-        _id:data._id,
-        email:data.email,
-        accessToken:data.accessToken
+        _id: data._id,
+        email: data.email,
+        accessToken: data.accessToken
     });
 }
 
@@ -34,13 +35,16 @@ export function logout() {
     delUserData();
 }
 
-export async function getAllPets(){
-return await getRequest(endpoint.allPets);
+export async function getAllPets() {
+    return await getRequest(endpoint.allPets);
 }
-export async function petInfo(id){
-return await getRequest(endpoint.petId(id));
+export async function petInfo(id) {
+    return await getRequest(endpoint.petId(id));
 }
-export async function petDel(id){
-return await delRequest(endpoint.petId(id));
+export async function petDel(id) {
+    return await delRequest(endpoint.petId(id));
+}
+export async function createPet(name, breed, age, weight, image) {
+    return await postRequest(endpoint.createPet, { name, breed, age, weight, image });
 }
 

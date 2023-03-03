@@ -1,12 +1,15 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
-export function createPageView(ctx) {
-    ctx.render(createViewTemplate(onSubmit));
+import { createPet } from "../api/data.js";
 
+let context = null;
+export function createPageView(ctx) {
+    context = ctx
+    ctx.render(createViewTemplate(onSubmit));
 }
 
 function createViewTemplate(onSubmit) {
     return html` <section id="createPage">
-    <form @submit ${onSubmit} class="createForm">
+    <form @submit=${onSubmit} class="createForm">
         <img src="./images/cat-create.jpg">
         <div>
             <h2>Create PetPal</h2>
@@ -37,8 +40,21 @@ function createViewTemplate(onSubmit) {
 `
 }
 
-function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
-    const { name, breed, age, weight, image } = dataForm;
+    const { name, breed, age, weight, image } = Object.fromEntries(dataForm);
+
+    try {
+        if (!name || !breed || !age || !weight || !image) {
+            throw new Error("all fields must be filled")
+        }
+
+        await createPet(name, breed, age, weight, image);
+
+        context.page.redirect("/");
+
+    } catch (error) {
+        alert(error.message)
+    }
 }
